@@ -1,8 +1,9 @@
 import User from "../user/user.model.js";
 import MESSAGES from "./auth.message.js";
 import { createError } from "../../common/utils/create-error.js";
-import { hashPassword } from "../../common/utils/password-handler.js";
+import { comparePassword, hashPassword } from "../../common/utils/password-handler.js";
 import { generateStudentId, generateUsername } from "../../common/utils/code-generator.js";
+import { signToken } from "../../common/utils/jwt.js";
 
 export const registerSevice = async (dataRegister) => {
 	const { email, password, fullname, role } = dataRegister;
@@ -34,4 +35,25 @@ export const registerSevice = async (dataRegister) => {
 
 	newUser.password = undefined;
 	return newUser;
+};
+
+export const loginService = async (dataLogin) => {
+	const { email, password } = dataLogin;
+
+	const user = await User.findOne({ email });
+	if (!user) return next(createError(401, MESSAGES.USER_NOT_FOUND));
+
+	const isMatch = comparePassword(password, user.password);
+	if (!isMatch) return next(createError(401, MESSAGES.INVALID_PASSWORD));
+
+	const accessToken = signToken({ id: user._id }, "1d");
+	const refreshToken = signToken({ id: user._id }, "30d");
+
+	user.password = undefined;
+
+	return {
+		user,
+		accessToken,
+		refreshToken,
+	};
 };
