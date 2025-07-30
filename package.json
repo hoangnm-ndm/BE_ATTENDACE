@@ -1,0 +1,32 @@
+{
+	"name": "be-example_attendance",
+	"version": "1.0.0",
+	"description": "nodejs, k01",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "concurrently \"nodemon --experimental-specifier-resolution=node index.js\" \"npm run swagger\"",
+		"swagger": "node --experimental-specifier-resolution=node src/common/configs/swagger-setup.js"
+	},
+	"keywords": [
+		"nodejs",
+		"thayhoangjs"
+	],
+	"author": "hoangnm-ndm",
+	"license": "MIT",
+	"dependencies": {
+		"bcryptjs": "^3.0.2",
+		"cors": "^2.8.5",
+		"dotenv": "^17.2.1",
+		"express": "^5.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"mongoose": "^8.16.5"
+	},
+	"devDependencies": {
+		"concurrently": "^9.2.0",
+		"fs": "^0.0.1-security",
+		"nodemon": "^3.1.10",
+		"swagger-autogen": "^2.23.7",
+		"swagger-ui-express": "^5.0.1"
+	}
+}
