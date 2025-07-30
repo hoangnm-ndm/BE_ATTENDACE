@@ -50,7 +50,7 @@ export const generateUsername = async (fullname) => {
 };
 
 //* Hàm này tự sinh studentId theo định dạng CFYYXXX
-// CF: prefix, YY: 2 chữ số cuối của năm hiện tại, XXX: 3 chữ số thứ tự từ 001 đến 999
+//* CF: prefix, YY: 2 chữ số cuối của năm hiện tại, XXX: 3 chữ số thứ tự từ 001 đến 999
 export const generateStudentId = async () => {
 	const currentYear = new Date().getFullYear().toString().slice(-2);
 	const prefix = `CF${currentYear}`;

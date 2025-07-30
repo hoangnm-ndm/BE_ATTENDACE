@@ -2,8 +2,8 @@ export const createResponse = (res, statusCode, message, data = null, meta = nul
 	const response = {
 		success: statusCode >= 200 && statusCode < 300,
 		message,
-		...(data !== null && { data }),
-		meta,
+		...(data && { data }),
+		...(meta && { meta }),
 	};
 	return res.status(statusCode).json(response);
 };

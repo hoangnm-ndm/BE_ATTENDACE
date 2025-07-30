@@ -2,14 +2,15 @@ import bcrypt from "bcryptjs";
 
 // * src/common/utils/password-handler.js
 export const hashPassword = async (password) => {
-	const salt = bcrypt.genSaltSync(10);
-	const hash = bcrypt.hashSync(password, salt);
-
+	const salt = await bcrypt.genSalt(10);
+	const hash = await bcrypt.hash(password, salt);
+	console.log(hash);
 	return hash;
 };
 
 export const comparePassword = async (password, hash) => {
-	return bcrypt.compareSync(password, hash);
+	const isMath = await bcrypt.compare(password, hash);
+	return isMath;
 };
 
 export const randomPassword = (length = 8) => {
