@@ -1,4 +1,4 @@
-import { loginService, registerSevice } from "./auth.service";
+import { loginService, refreshTokenService, registerSevice } from "./auth.service";
 import { createResponse } from "../../common/utils/create-response";
 import MESSAGES from "./auth.message";
 import handleAsync from "../../common/utils/async-handler";
@@ -12,4 +12,10 @@ export const registerUser = handleAsync(async (req, res, next) => {
 export const loginUser = handleAsync(async (req, res, next) => {
 	const data = await loginService(req.body);
 	return createResponse(res, 200, MESSAGES.LOGIN_SUCCESS, data);
+});
+
+// * @route POST /api/auth/refresh-token
+export const refreshToken = handleAsync(async (req, res, next) => {
+	const data = await refreshTokenService(req);
+	return createResponse(res, 200, MESSAGES.REFRESH_TOKEN_SUCCESS, data);
 });

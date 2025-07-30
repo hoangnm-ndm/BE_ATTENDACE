@@ -1,9 +1,9 @@
+import { generateStudentId, generateUsername } from "../../common/utils/code-generator.js";
+import { createError } from "../../common/utils/create-error.js";
+import { signToken, verifyToken } from "../../common/utils/jwt.js";
+import { comparePassword, hashPassword } from "../../common/utils/password-handler.js";
 import User from "../user/user.model.js";
 import MESSAGES from "./auth.message.js";
-import { createError } from "../../common/utils/create-error.js";
-import { comparePassword, hashPassword } from "../../common/utils/password-handler.js";
-import { generateStudentId, generateUsername } from "../../common/utils/code-generator.js";
-import { signToken } from "../../common/utils/jwt.js";
 
 export const registerSevice = async (dataRegister) => {
 	const { email, password, fullname, role } = dataRegister;
@@ -56,4 +56,21 @@ export const loginService = async (dataLogin) => {
 		accessToken,
 		refreshToken,
 	};
+};
+
+export const refreshTokenService = async (req) => {
+	// Ưu tiên lấy refreshToken từ body, header, cookie
+	const refreshToken = req.body?.refreshToken || req.headers["x-refresh-token"] || req.cookies.refreshToken;
+
+	console.log(refreshToken);
+	if (!refreshToken) {
+		return createError(401, MESSAGES.INVALID_REFRESH_TOKEN);
+	}
+
+	const { valid, decoded } = verifyToken(refreshToken);
+	if (valid) {
+		const accessToken = signToken({ id: decoded.id }, "1d");
+		const newRefreshToken = signToken({ id: decoded.id }, "30d");
+		return { accessToken, refreshToken: newRefreshToken };
+	}
 };
