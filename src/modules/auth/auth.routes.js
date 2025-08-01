@@ -1,12 +1,14 @@
 import Router from "express";
 import { forgotPassword, loginUser, refreshToken, registerUser, resetPassword } from "./auth.controller.js";
+import { loginSchema, registerSchema, resetPasswordSchema } from "../../common/utils/auth.schema.js";
+import validBodyRequest from "../../common/middlewares/valid-body.middleware.js";
 
 const authRoutes = Router();
 
-authRoutes.post("/register", registerUser);
-authRoutes.post("/login", loginUser);
+authRoutes.post("/register", validBodyRequest(registerSchema), registerUser);
+authRoutes.post("/login", validBodyRequest(loginSchema), loginUser);
 authRoutes.post("/refresh-token", refreshToken);
 authRoutes.post("/forgot-password", forgotPassword);
-authRoutes.post("/reset-password", resetPassword);
+authRoutes.post("/reset-password", validBodyRequest(resetPasswordSchema), resetPassword);
 
 export default authRoutes;
