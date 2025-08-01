@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { createError } from "../utils/create-error";
 
 const validBodyRequest = (schema) => (req, res, next) => {
 	try {
@@ -6,15 +6,11 @@ const validBodyRequest = (schema) => (req, res, next) => {
 		req.body = data;
 		next();
 	} catch (error) {
-		if (error instanceof z.ZodError) {
-			const allMessages = error.issues.map((err) => err.path + ": " + err.message).join("; ");
-			return res.status(400).json({
-				error: allMessages,
-			});
+		if (error.issues && Array.isArray(error.issues)) {
+			const allMessages = error.issues.map((err) => err.path[0] + ": " + err.message).join("; ");
+			return next(createError(400, allMessages));
 		}
-		return res.status(500).json({
-			error: "Internal Server Error",
-		});
+		return next(createError(400, "Invalid request"));
 	}
 };
 
