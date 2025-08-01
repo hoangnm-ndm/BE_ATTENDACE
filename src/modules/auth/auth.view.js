@@ -71,7 +71,7 @@ export const generateResetPasswordEmail = (resetLink, expiresIn) => {
     <body>
       <div class="container">
         <div class="header">
-          <img src="https://via.placeholder.com/150x50?text=Your+Logo" alt="Logo" />
+            <img src="https://codefarm.edu.vn/_next/static/media/Logo.50657ef8.svg" alt="Logo" />
           <h1>Đặt lại mật khẩu - CodeFarm</h1>
         </div>
         <div class="content">
@@ -110,7 +110,7 @@ export const generatePasswordResetSuccessEmail = () => /*html*/ `
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mật khẩu đã được đặt lại</title>
+    <title>CF - Mật khẩu đã được đặt lại</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -163,8 +163,8 @@ export const generatePasswordResetSuccessEmail = () => /*html*/ `
   <body>
     <div class="container">
       <div class="header">
-        <img src="https://via.placeholder.com/150x50?text=Your+Logo" alt="Logo" />
-        <h1>Mật khẩu đã được đặt lại</h1>
+        <img src="https://codefarm.edu.vn/_next/static/media/Logo.50657ef8.svg" alt="Logo" />
+        <h1>CodeFarm - Mật khẩu đã được đặt lại</h1>
       </div>
       <div class="content">
         <h2>Xin chào,</h2>

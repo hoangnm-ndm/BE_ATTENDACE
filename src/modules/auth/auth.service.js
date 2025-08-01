@@ -1,12 +1,26 @@
 import { FRONTEND_URL, RESET_PASSWORD_EXPIRES, RESET_PASSWORD_SECRET } from "../../common/configs/environment.js";
 import { generateStudentId, generateUsername } from "../../common/utils/code-generator.js";
-import { createError } from "../../common/utils/create-error.js";
+import { createError, throwError } from "../../common/utils/create-error.js";
 import { signToken, verifyToken } from "../../common/utils/jwt.js";
 import { comparePassword, hashPassword } from "../../common/utils/password-handler.js";
 import sendEmail from "../../common/utils/send-email.js";
 import User from "../user/user.model.js";
 import MESSAGES from "./auth.message.js";
-import { generateResetPasswordEmail } from "./auth.view.js";
+import { generatePasswordResetSuccessEmail, generateResetPasswordEmail } from "./auth.view";
+
+export const sendResetPasswordEmail = async (email, resetLink, expiresIn = "15 phút") => {
+	const subject = "[CodeFarm] Đặt lại mật khẩu cho tài khoản của bạn";
+	const html = generateResetPasswordEmail(resetLink, expiresIn);
+
+	await sendEmail(email, subject, { html });
+};
+
+export const sendPasswordResetSuccessEmail = async (email) => {
+	const subject = "Mật khẩu đã được đặt lại";
+	const html = generatePasswordResetSuccessEmail();
+
+	await sendEmail(email, subject, { html });
+};
 
 export const registerSevice = async (dataRegister) => {
 	const { email, password, fullname, role } = dataRegister;
@@ -61,10 +75,7 @@ export const loginService = async (dataLogin) => {
 	};
 };
 
-export const refreshTokenService = async (req) => {
-	// Ưu tiên lấy refreshToken từ body, header, cookie
-	const refreshToken = req.body?.refreshToken || req.headers["x-refresh-token"] || req.cookies.refreshToken;
-
+export const refreshTokenService = async (refreshToken) => {
 	console.log(refreshToken);
 	if (!refreshToken) {
 		return createError(401, MESSAGES.INVALID_REFRESH_TOKEN);
@@ -95,9 +106,17 @@ export const fotgotPasswordService = async (email) => {
 	return true;
 };
 
-export const sendResetPasswordEmail = async (email, resetLink, expiresIn = "15 phút") => {
-	const subject = "[CodeFarm] Đặt lại mật khẩu cho tài khoản của bạn";
-	const html = generateResetPasswordEmail(resetLink, expiresIn);
+export const resetPasswordService = async (resetToken, newPassword) => {
+	const decoded = verifyToken(resetToken);
 
-	await sendEmail(email, subject, { html });
+	console.log(decoded);
+	const user = await User.findById(decoded.decoded.id);
+	console.log(user);
+
+	if (!user) return false;
+
+	user.password = await hashPassword(newPassword);
+	await user.save();
+	await sendPasswordResetSuccessEmail(user.email);
+	return true;
 };
