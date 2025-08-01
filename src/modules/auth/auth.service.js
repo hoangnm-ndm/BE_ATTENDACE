@@ -1,26 +1,12 @@
 import { FRONTEND_URL, RESET_PASSWORD_EXPIRES, RESET_PASSWORD_SECRET } from "../../common/configs/environment.js";
 import { generateStudentId, generateUsername } from "../../common/utils/code-generator.js";
-import { createError, throwError } from "../../common/utils/create-error.js";
+import { createError } from "../../common/utils/create-error.js";
 import { signToken, verifyToken } from "../../common/utils/jwt.js";
 import { comparePassword, hashPassword } from "../../common/utils/password-handler.js";
 import sendEmail from "../../common/utils/send-email.js";
 import User from "../user/user.model.js";
 import MESSAGES from "./auth.message.js";
 import { generatePasswordResetSuccessEmail, generateResetPasswordEmail } from "./auth.view";
-
-export const sendResetPasswordEmail = async (email, resetLink, expiresIn = "15 phút") => {
-	const subject = "[CodeFarm] Đặt lại mật khẩu cho tài khoản của bạn";
-	const html = generateResetPasswordEmail(resetLink, expiresIn);
-
-	await sendEmail(email, subject, { html });
-};
-
-export const sendPasswordResetSuccessEmail = async (email) => {
-	const subject = "Mật khẩu đã được đặt lại";
-	const html = generatePasswordResetSuccessEmail();
-
-	await sendEmail(email, subject, { html });
-};
 
 export const registerSevice = async (dataRegister) => {
 	const { email, password, fullname, role } = dataRegister;
@@ -102,7 +88,9 @@ export const fotgotPasswordService = async (email) => {
 	const resetToken = signToken({ id: user._id, role: user.role }, RESET_PASSWORD_EXPIRES || "15m");
 
 	const resetLink = `${FRONTEND_URL}/auth/reset-password/${resetToken}`;
-	await sendResetPasswordEmail(email, resetLink, RESET_PASSWORD_EXPIRES);
+	const subject = "[CodeFarm] Đặt lại mật khẩu cho tài khoản của bạn";
+	const html = generateResetPasswordEmail(resetLink, (expiresIn = "15 phút"));
+	await sendEmail(email, subject, { html });
 	return true;
 };
 
@@ -117,6 +105,9 @@ export const resetPasswordService = async (resetToken, newPassword) => {
 
 	user.password = await hashPassword(newPassword);
 	await user.save();
-	await sendPasswordResetSuccessEmail(user.email);
+
+	const subject = "Mật khẩu đã được đặt lại";
+	const html = generatePasswordResetSuccessEmail();
+	await sendEmail(user.email, subject, { html });
 	return true;
 };
