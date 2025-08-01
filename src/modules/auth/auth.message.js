@@ -21,6 +21,10 @@ const MESSAGES = {
 	FORBIDDEN: "Bạn không có quyền thực hiện hành động này",
 	NO_REFRESH_TOKEN: "Không có refresh token",
 	INVALID_REFRESH_TOKEN: "Refresh token đã hết hạn hoặc không hợp lệ",
+	SEND_SUCCESS: "Gửi email thành công, vui lòng kiểm tra hộp thư đến",
+	SEND_MAIL_FAIL: "Gửi email thất bại, vui lòng kiểm tra lại!",
 };
+
+Object.freeze(MESSAGES);
 
 export default MESSAGES;
