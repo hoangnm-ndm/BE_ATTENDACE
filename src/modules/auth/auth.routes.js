@@ -1,11 +1,12 @@
 import Router from "express";
-
-import { registerUser } from "./auth.controller.js";
+import { forgotPassword, loginUser, refreshToken, registerUser } from "./auth.controller.js";
 
 const authRoutes = Router();
 
 authRoutes.post("/register", registerUser);
-// authRoutes.post("/login", registerUser);
-// authRoutes.post("/forgot-password", registerUser);
+authRoutes.post("/login", loginUser);
+authRoutes.post("/refresh-token", refreshToken);
+authRoutes.post("/forgot-password", forgotPassword);
+// authRoutes.post("/reset-password", registerUser);
 
 export default authRoutes;
