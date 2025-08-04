@@ -1,8 +1,12 @@
 import { queryBuilder } from "../../common/utils/query-builder";
 import Subject from "./subject.model";
+import { generateSubjectCode } from "./subject.utils";
 
 export const createSubject = async (data) => {
-	const subject = await Subject.create(data);
+	const subject = await Subject.create({
+		...data,
+		code: await generateSubjectCode(data.englishName),
+	});
 	return subject;
 };
 

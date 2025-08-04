@@ -342,6 +342,27 @@
         "data": {
           "type": "object",
           "properties": {}
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "number",
+              "example": 0
+            },
+            "page": {
+              "type": "number",
+              "example": 1
+            },
+            "limit": {
+              "type": "number",
+              "example": 10
+            },
+            "totalPages": {
+              "type": "number",
+              "example": 1
+            }
+          }
         }
       }
     }
