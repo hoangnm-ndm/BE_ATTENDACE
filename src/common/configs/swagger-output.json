@@ -2,8 +2,12 @@
   "swagger": "2.0",
   "info": {
     "title": "Backend API Codefarm Ecommerce K01 ThayHoangJS",
-    "description": "API Codefarm By ThayHoangJS",
-    "version": "1.0.0"
+    "description": "API documentation for Codefarm Ecommerce platform by ThayHoangJS",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Support Team",
+      "email": "support@codefarm.edu.vn"
+    }
   },
   "host": "localhost:8888",
   "basePath": "/api",
@@ -163,10 +167,26 @@
             "description": ""
           }
         }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
       }
     },
     "/majors/soft-delete/{id}": {
-      "delete": {
+      "patch": {
         "description": "",
         "parameters": [
           {
@@ -198,6 +218,130 @@
           "default": {
             "description": ""
           }
+        }
+      }
+    },
+    "/subjects/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/subjects/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/subjects/{id}/soft-delete": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/subjects/{id}/restore": {
+      "patch": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string",
+          "example": "Error message"
+        },
+        "error": {
+          "type": "object",
+          "properties": {}
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": true
+        },
+        "message": {
+          "type": "string",
+          "example": "Success message"
+        },
+        "data": {
+          "type": "object",
+          "properties": {}
         }
       }
     }

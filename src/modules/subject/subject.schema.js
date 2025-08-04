@@ -1,9 +1,10 @@
 import { z } from "zod";
 
-export const createMajorSchema = z
+export const createSubjectSchema = z
 	.object({
 		name: z.string().min(1, "Name is required"),
-		description: z.string().min(1, "Description is required"),
+		englishName: z.string().min(1, "English name is required"),
+		description: z.string().optional(),
 		code: z
 			.string()
 			.min(1, "Code is required")
@@ -11,9 +12,10 @@ export const createMajorSchema = z
 	})
 	.strict();
 
-export const updateMajorSchema = z
+export const updateSubjectSchema = z
 	.object({
 		name: z.string().min(1, "Name is required").optional(),
+		englishName: z.string().min(1, "English name is required").optional(),
 		description: z.string().min(1, "Description is required").optional(),
 		code: z
 			.string()

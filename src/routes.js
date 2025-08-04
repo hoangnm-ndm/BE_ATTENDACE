@@ -10,11 +10,12 @@ import userRoutes from "./modules/user/user.routes";
 const routes = Router();
 
 routes.use("/auth", authRoutes);
-routes.use("/attendances", attendaceRoutes);
+
 routes.use("/classes", classRoutes);
 routes.use("/majors", majorRoutes);
-routes.use("/sessions", sessionRoutes);
 routes.use("/subjects", subjectRoutes);
+routes.use("/sessions", sessionRoutes);
+routes.use("/attendances", attendaceRoutes);
 routes.use("/users", userRoutes);
 
 export default routes;

@@ -16,7 +16,8 @@ majorRoutes.use(verifyUser);
 majorRoutes.use(restrictTo(RoleEnum.SUPER_ADMIN));
 majorRoutes.post("/", validBodyRequest(createMajorSchema), majorController.createMajor);
 majorRoutes.patch("/:id", validBodyRequest(updateMajorSchema), majorController.updateMajor);
-majorRoutes.delete("/soft-delete/:id", majorController.softDeleteMajor);
+majorRoutes.patch("/soft-delete/:id", majorController.softDeleteMajor);
 majorRoutes.patch("/restore/:id", majorController.restoreMajor);
+majorRoutes.delete("/:id", majorController.deleteMajor);
 
 export default majorRoutes;

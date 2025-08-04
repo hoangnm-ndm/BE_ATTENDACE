@@ -41,3 +41,8 @@ export const restoreMajor = async (id) => {
 		{ new: true }
 	);
 };
+
+// Hard delete a major (after soft delete)
+export const deleteMajor = async (id) => {
+	return await Major.findOneAndDelete({ _id: id, deletedAt: null });
+};
