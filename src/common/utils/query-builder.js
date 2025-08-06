@@ -12,6 +12,8 @@ export const queryBuilder = async (Model, queryParams, options = {}) => {
 		...filters
 	} = queryParams;
 
+	const { populate = [] } = options;
+
 	// Xây dựng điều kiện truy vấn
 	const queryConditions = {};
 
@@ -37,6 +39,18 @@ export const queryBuilder = async (Model, queryParams, options = {}) => {
 
 	// Tạo truy vấn Mongoose với các điều kiện
 	let query = Model.find(queryConditions);
+
+	// Áp dụng population nếu có
+	if (populate.length > 0) {
+		populate.forEach((pop) => {
+			query = query.populate({
+				path: pop.path,
+				select: pop.select || "name", // Mặc định lấy trường name nếu không chỉ định select
+			});
+		});
+	}
+
+	// await Class.find({}).populate({path: "teacherId", select: "username fullname, email"}).populate({path: "majorId", select: "name code"}).populate({})
 
 	// Áp dụng sắp xếp
 	const sortOrder = order === "desc" ? -1 : 1;

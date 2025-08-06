@@ -29,13 +29,12 @@ export const createClass = async (data) => {
 		const { totalSessions, startDate, daysOfWeek } = data;
 
 		// Tạo lớp học
-		const classInstance = await Class.create([data], { session });
-		const createdClass = classInstance[0];
+		const createdClass = await Class.create(data, { session });
 
-		console.log(daysOfWeek);
+		const datesOfWeek = daysOfWeek.split(",").map(Number);
 
 		// Tạo các buổi học trong Sessions
-		const sessionDates = generateSessionDates(new Date(startDate), totalSessions, daysOfWeek);
+		const sessionDates = generateSessionDates(new Date(startDate), totalSessions, datesOfWeek);
 
 		// Tạo buổi học
 		const sessions = sessionDates.map((sessionDate) => ({

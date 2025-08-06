@@ -27,7 +27,7 @@ export const createClassSchema = z
 			.max(100, "Số lượng sinh viên tối đa không được vượt quá 100")
 			.optional(),
 		room: z.string().optional(),
-		daysOfWeek: z.array(z.number()),
+		daysOfWeek: z.string(),
 	})
 	.strict();
 
